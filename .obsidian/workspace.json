@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Statistics and Time Series/central_limit_theorem.md",
+                "file": "Regression and Machine Learning/linear_regression.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "central_limit_theorem"
+              "title": "linear_regression"
             }
           }
         ]
@@ -185,15 +185,19 @@
   },
   "active": "5f4fcaab54e141b1",
   "lastOpenFiles": [
+    "Statistics and Time Series/adf_test.md",
+    "Statistics and Time Series/spurious_regression.md",
+    "Statistics and Time Series/central_limit_theorem.md",
+    "Regression and Machine Learning/problem_set.md",
+    "Basic Maths/basic_math_problem.md",
+    "Statistics and Time Series/hypothesis_testing.md",
+    "Statistics and Time Series/fisher_information.md",
+    "Statistics and Time Series/distribution.md",
     "Regression and Machine Learning/linear_regression.md.tmp.37808.9c08201d48b9",
     "Regression and Machine Learning/fama_macbeth.md.tmp.37808.28372a633493",
     "Statistics and Time Series/distribution.md.tmp.37808.b71e35724625",
-    "Statistics and Time Series/distribution.md",
-    "Statistics and Time Series/central_limit_theorem.md",
     "Statistics and Time Series/central_limit_theorem.md.tmp.37808.99e2664a0271",
     "Statistics and Time Series/time_series_analysis.md",
-    "Statistics and Time Series/hypothesis_testing.md",
-    "Statistics and Time Series/adf_test.md",
     "Statistics and Time Series/time_series_analysis.md.tmp.41572.589813cdfc20",
     "Statistics and Time Series/~$note.docx",
     "Regression and Machine Learning/linear_regression.md",
@@ -211,13 +215,8 @@
     "Basic Maths/variance_covariance_correlation.md",
     "Basic Maths/variance_covariance_correlation.md.tmp.44644.ba2871829b75",
     "Basic Maths/variance_covariance_correlation.md.tmp.13244.e90967c5957a",
-    "Basic Maths/basic_math_problem.md",
     "Statistics and Time Series/maximum_likelihood.md",
-    "Regression and Machine Learning/newey_west_adjustment.md.tmp.444.e7d4d598cb05",
     "Regression and Machine Learning/GLS.md",
-    "Regression and Machine Learning/problem_set.md",
-    "Statistics and Time Series/fisher_information.md",
-    "Statistics and Time Series/spurious_regression.md",
     "Statistics and Time Series/PCA.md",
     "CLAUDE.md",
     "Statistics and Time Series/hypothesis testing/power_and_sample_size_derivation.md",

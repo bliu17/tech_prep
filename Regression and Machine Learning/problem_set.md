@@ -29,7 +29,7 @@ Inverting:
 
 $$(X^\top X)^{-1} = \frac{1}{n(1 - \rho^2)} \begin{bmatrix} 1 & -\rho \\ -\rho & 1 \end{bmatrix}$$
 
-Since $\text{Var}(\hat{\beta}) = \hat{\sigma}^2 (X^\top X)^{-1}$, the variance of each coefficient is:
+Since the variance covariance matrix of beta $\text{Var}(\hat{\beta}) = \hat{\sigma}^2 (X^\top X)^{-1}$, the variance $\beta$ is:
 
 $$\text{Var}(\hat{\beta}_1) = \text{Var}(\hat{\beta}_2) = \frac{\hat{\sigma}^2}{n(1 - \rho^2)}$$
 
