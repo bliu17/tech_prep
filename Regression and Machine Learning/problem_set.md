@@ -8,6 +8,7 @@
 - [[#Problem 2: What is the geometric meaning of OLS?]]
 - [[#Problem 3: How many points are needed to halve the standard deviation of beta?]]
 - [[#Problem 4: Is there a closed-form solution to constrained linear regression?]]
+- [[#Problem 5: If you duplicate the dataset m times, how do beta, t-stats, p-values, and R-squared change?]]
 
 ---
 
@@ -121,3 +122,69 @@ With inequalities the problem becomes **quadratic programming (QP)**: minimize a
 | None (OLS) | Yes | $\hat\beta = (X^\top X)^{-1}X^\top y$ |
 | $A\beta = b$ (equality) | Yes — **closed form** | Projection formula (boxed above), via Lagrange multipliers |
 | $A\beta \leq b$ / $\geq b$ (inequality) | Yes, but **no closed form** | Quadratic program; closed-form *only conditional on the active set*, found numerically via KKT |
+
+---
+
+## Problem 5: If you duplicate the dataset m times, how do beta, t-stats, p-values, and R-squared change?
+
+**Problem:** You run OLS of $y$ on $X$ with $n$ observations. Now you **stack the exact same dataset $m$ times** (so the new sample is $mn$ rows, each original row repeated $m$ times) and re-run OLS. How do $\hat\beta$, the t-statistics, the p-values, and $R^2$ change?
+
+**Answer summary:** $\hat\beta$ and $R^2$ are **unchanged**; standard errors **shrink by $\sqrt{m}$**, so t-stats **inflate by $\sqrt{m}$** and p-values **collapse toward zero**. This is the classic "fake sample size" trap — duplicating data fabricates statistical significance without adding any real information.
+
+**Setup:** Stacking $m$ copies gives $\tilde X = \mathbf{1}_m \otimes X$ and $\tilde y = \mathbf{1}_m \otimes y$. The cross-products simply scale by $m$:
+
+$$\tilde X^\top \tilde X = m\,X^\top X, \qquad \tilde X^\top \tilde y = m\,X^\top y$$
+
+### $\hat\beta$ — unchanged
+
+$$\hat\beta_{\text{new}} = (\tilde X^\top \tilde X)^{-1}\tilde X^\top \tilde y = (m X^\top X)^{-1}(m X^\top y) = (X^\top X)^{-1}X^\top y = \hat\beta_{\text{old}}$$
+
+The factor $m$ cancels. Intuitively, the *minimizer* of the squared error doesn't move — scaling every squared residual by $m$ scales the whole objective but not its argmin. Each residual $\hat\varepsilon_i$ is identical to before (just repeated $m$ times).
+
+### $R^2$ — unchanged
+
+$\text{SS}_{\text{res}}$ and $\text{SS}_{\text{tot}}$ both scale by exactly $m$ (each squared term is repeated $m$ times), so their ratio is invariant:
+
+$$R^2_{\text{new}} = 1 - \frac{m\,\text{SS}_{\text{res}}}{m\,\text{SS}_{\text{tot}}} = R^2_{\text{old}}$$
+
+(Adjusted $R^2$ shifts microscopically because its $n$ changes, but ordinary $R^2$ is identical.)
+
+### Standard errors — shrink by $\sqrt{m}$
+
+This is where the damage is. Two things change in the SE formula $\text{SE}(\hat\beta_j) = \sqrt{\hat\sigma^2 \,[(X^\top X)^{-1}]_{jj}}$:
+
+1. **The $(X^\top X)^{-1}$ factor shrinks:** $(\tilde X^\top \tilde X)^{-1} = \frac{1}{m}(X^\top X)^{-1}$.
+2. **The variance estimate $\hat\sigma^2$ barely changes** — and this is the crux. The naive estimator uses the *inflated* degrees of freedom:
+
+$$\hat\sigma^2_{\text{new}} = \frac{\text{SS}_{\text{res,new}}}{mn - p} = \frac{m\,\text{SS}_{\text{res,old}}}{mn - p} \;\approx\; \frac{m\,\text{SS}_{\text{res,old}}}{mn} = \frac{\text{SS}_{\text{res,old}}}{n} \approx \hat\sigma^2_{\text{old}}$$
+
+The numerator grew by $m$ but the denominator (d.o.f.) also grew by $\approx m$, so $\hat\sigma^2$ is essentially unchanged. Combining:
+
+$$\text{Var}(\hat\beta_{\text{new}}) = \hat\sigma^2_{\text{new}}\,(\tilde X^\top\tilde X)^{-1} \approx \hat\sigma^2_{\text{old}}\cdot \tfrac{1}{m}(X^\top X)^{-1} = \frac{1}{m}\text{Var}(\hat\beta_{\text{old}})$$
+
+$$\boxed{\text{SE}_{\text{new}} \approx \frac{\text{SE}_{\text{old}}}{\sqrt{m}}}$$
+
+### t-stats — inflate by $\sqrt{m}$, p-values — collapse
+
+Since $\hat\beta$ is unchanged and the SE shrank by $\sqrt m$:
+
+$$t_{\text{new}} = \frac{\hat\beta_j}{\text{SE}_{\text{new}}} \approx \sqrt{m}\cdot t_{\text{old}}$$
+
+The t-stat blows up by $\sqrt m$. The **F-stat** inflates the same way. So you can manufacture "significance" for *any* nonzero coefficient just by copy-pasting rows.
+
+**How the p-value is computed, and why it → 0.** For the two-sided test of $H_0: \beta_j = 0$, the p-value is the tail probability of the reference $t$-distribution beyond the observed statistic:
+
+$$p =,\Pr\!\big(T_\nu > |t|\big), \qquad \nu = \text{d.o.f.} = mn - p$$
+
+Two forces both push this tail probability toward 0 under duplication:
+
+1. **The statistic moves out into the tail.** $|t|$ grows by $\sqrt m$, and the $t$ (and normal) tail $\Pr(T_\nu > |t|)$ decays **faster than exponentially** in $|t|$ (roughly $\sim e^{-t^2/2}$ for the normal limit). So scaling $|t|$ by $\sqrt m$ shrinks the tail probability extremely fast — e.g. a borderline $t = 2$ ($p \approx 0.046$) becomes $t = 2\sqrt{4} = 4$ at $m=4$, giving $p \approx 6\times 10^{-5}$, and $t=2\sqrt{9}=6$ at $m=9$ gives $p \approx 2\times10^{-9}$.
+
+The dominant term is the $e^{-t^2/2}$ tail decay evaluated at $t \approx \sqrt m\, t_{\text{old}}$, so the p-value falls **roughly like $e^{-m\, t_{\text{old}}^2/2}$ — exponentially in the number of copies $m$.** That is why even a weak, barely-significant effect becomes "astronomically significant" after a handful of duplications, despite zero new information.
+
+**Why this is a trap — the i.i.d. violation:** the math is correct but the *inference* is invalid. The SE formula assumes $mn$ **independent** observations. Duplicated rows are perfectly correlated, not independent, so the true information content is still just $n$ points. The standard errors are wrong because the independence assumption (assumption 5, no error correlation — see [[linear_regression]]) is grossly violated: $\text{Cov}(\varepsilon_i, \varepsilon_j) = \sigma^2$ for duplicate pairs, not 0.
+
+**Connections:**
+- This is the degenerate extreme of **clustered data** — each set of $m$ duplicates is a cluster with perfect within-cluster correlation. **Cluster-robust standard errors** (clustering on the original row id) would correctly recover $\text{SE}_{\text{old}}$ and undo the inflation.
+- It's the mirror image of [[#Problem 3: How many points are needed to halve the standard deviation of beta of a simple linear regression?]]: there, $4\times$ *genuinely independent* points halve the SE; here, $4\times$ *duplicated* points appear to halve the SE but add zero real information.
+- Practical takeaways: never let train/test or resampling pipelines duplicate rows; watch for it when joining tables (a one-to-many join silently replicates rows and fabricates significance).

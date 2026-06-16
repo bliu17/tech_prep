@@ -4,24 +4,53 @@
     "type": "split",
     "children": [
       {
-        "id": "a793e6fc0b66ccd2",
+        "id": "cbf1777382fcad67",
         "type": "tabs",
         "children": [
           {
-            "id": "5f4fcaab54e141b1",
+            "id": "4ac28c6f3086b371",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Regression and Machine Learning/linear_regression.md",
+                "file": "Statistics and Time Series/central_limit_theorem.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "linear_regression"
+              "title": "central_limit_theorem"
+            }
+          },
+          {
+            "id": "9892b4d973a10153",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-06-04.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-06-04"
+            }
+          },
+          {
+            "id": "b32f7d0a9d80f536",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Regression and Machine Learning/problem_set.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "problem_set"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -183,45 +212,46 @@
       "bases:Create new base": false
     }
   },
-  "active": "5f4fcaab54e141b1",
+  "active": "b32f7d0a9d80f536",
   "lastOpenFiles": [
-    "Statistics and Time Series/adf_test.md",
-    "Statistics and Time Series/spurious_regression.md",
-    "Statistics and Time Series/central_limit_theorem.md",
-    "Regression and Machine Learning/problem_set.md",
+    "Regression and Machine Learning/ridge_lasso.md",
+    "Statistics and Time Series/problem_set_stats.md",
+    "Linear Algebra/matrix_calculus.md",
+    "Basic Maths/variance_covariance_correlation.md",
     "Basic Maths/basic_math_problem.md",
+    "Linear Algebra/eigen decomposition.md",
+    "Probability/排列组合.md",
+    "Probability/其他技巧.md",
+    "Statistics and Time Series/time_series_analysis.md",
+    "Statistics and Time Series/spurious_regression.md",
+    "Statistics and Time Series/PCA.md",
+    "Statistics and Time Series/maximum_likelihood.md",
     "Statistics and Time Series/hypothesis_testing.md",
     "Statistics and Time Series/fisher_information.md",
     "Statistics and Time Series/distribution.md",
+    "Statistics and Time Series/central_limit_theorem.md",
+    "Statistics and Time Series/adf_test.md",
+    "Regression and Machine Learning/fama_macbeth.md",
+    "Regression and Machine Learning/Frisch-Waugh-Lovell.md",
+    "Regression and Machine Learning/newey_west_adjustment.md",
+    "Regression and Machine Learning/problem_set.md",
+    "Regression and Machine Learning/GLS and OLS with Robust Estimation.md",
+    "Regression and Machine Learning/linear_regression.md",
+    "Probability/期望.md",
+    "Basic Algo/Basic Algo.md",
+    "Probability/Untitled.md",
+    "content.base",
+    "Regression and Machine Learning/problem_set.md.tmp.41180.d2ce5c4068f2",
+    "Regression and Machine Learning/problem_set.md.tmp.44080.65e4b9eababb",
+    "Basic Algo",
+    "Regression and Machine Learning/linear_regression.md.tmp.3040.553d0b84f0b5",
     "Regression and Machine Learning/linear_regression.md.tmp.37808.9c08201d48b9",
     "Regression and Machine Learning/fama_macbeth.md.tmp.37808.28372a633493",
     "Statistics and Time Series/distribution.md.tmp.37808.b71e35724625",
     "Statistics and Time Series/central_limit_theorem.md.tmp.37808.99e2664a0271",
-    "Statistics and Time Series/time_series_analysis.md",
     "Statistics and Time Series/time_series_analysis.md.tmp.41572.589813cdfc20",
-    "Statistics and Time Series/~$note.docx",
-    "Regression and Machine Learning/linear_regression.md",
-    "Regression and Machine Learning/newey_west_adjustment.md",
-    "Regression and Machine Learning/Frisch-Waugh-Lovell.md",
-    "Regression and Machine Learning/linear_regression.md.tmp.31832.91a02abc01b9",
-    "Regression and Machine Learning/fama_macbeth.md",
-    "Regression and Machine Learning/linear_regression.md.tmp.18620.da0fd0658633",
-    "2026-06-04.md",
     "Untitled 2.canvas",
     "Untitled 1.canvas",
-    "Untitled.canvas",
-    "Linear Algebra/matrix_calculus.md",
-    "Linear Algebra/eigen decomposition.md",
-    "Basic Maths/variance_covariance_correlation.md",
-    "Basic Maths/variance_covariance_correlation.md.tmp.44644.ba2871829b75",
-    "Basic Maths/variance_covariance_correlation.md.tmp.13244.e90967c5957a",
-    "Statistics and Time Series/maximum_likelihood.md",
-    "Regression and Machine Learning/GLS.md",
-    "Statistics and Time Series/PCA.md",
-    "CLAUDE.md",
-    "Statistics and Time Series/hypothesis testing/power_and_sample_size_derivation.md",
-    "Statistics and Time Series/hypothesis testing/t_test_vs_z_test.md",
-    "Regression and Machine Learning/ridge_lasso.md",
-    "heteroskedasticity.md"
+    "Untitled.canvas"
   ]
 }

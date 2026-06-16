@@ -133,7 +133,7 @@ Coefficients remain unbiased but OLS is inefficient. Standard errors are typical
 - If it's panel data, consider using Fama-MacBeth regression.
 - If it's panel data, consider clustered standard error.
 
-For the **Newey-West (HAC)** estimator and the general **GLS** framework — and how White, WLS, and Fama-MacBeth are all special cases or approximations of GLS — see [[GLS]].
+For the **Newey-West (HAC)** estimator and the general **GLS** framework — and how White, WLS, and Fama-MacBeth are all special cases or approximations of GLS — see [[GLS and OLS with Robust Estimation]].
 
 > **Note:** Assumptions 4 and 5 together are equivalent to the single matrix condition $\text{Var}(\varepsilon \mid X) = \sigma^2 I$ — homoskedasticity gives equal diagonal entries $\sigma^2$, and no autocorrelation gives zero off-diagonal entries.
 
@@ -147,6 +147,21 @@ $\varepsilon \mid X \sim N(0, \sigma^2)$. Not required for unbiasedness or consi
 
 #### 6.3 Consequence of Violation
 t- and F-statistics no longer follow their exact distributions, so p-values are approximate. In large samples this is minor due to the [[central_limit_theorem|CLT]].
+
+**Why the CLT rescues inference even when errors aren't normal.** The OLS estimator is a **linear combination of the errors**:
+
+$$\hat{\beta} = \beta + (X^\top X)^{-1} X^\top \varepsilon = \beta + \sum_{i=1}^n w_i \, \varepsilon_i$$
+
+i.e. a *weighted sum* of the $n$ error terms (with weights $w_i$ from the rows of $(X^\top X)^{-1}X^\top$). The CLT applies to exactly this kind of sum: as $n \to \infty$, a weighted sum of i.i.d. (or independent, non-dominant) finite-variance errors is **asymptotically normal regardless of the errors' own distribution**. So:
+
+$$\sqrt{n}\,(\hat{\beta} - \beta) \;\xrightarrow{d}\; N\!\big(0,\; \sigma^2 \, Q^{-1}\big), \qquad Q = \lim \tfrac{1}{n}X^\top X$$
+
+Normality of $\hat\beta$ is what the t- and F-tests actually require — not normality of the raw errors. Two consequences:
+
+- The **t-statistic** $\hat\beta_j / \text{SE}(\hat\beta_j)$ is asymptotically standard normal, and since $t_{n-p-1} \to N(0,1)$ as $n$ grows, the usual $t$ critical values stay approximately valid.
+- The **F-statistic** $\times\, p$ is asymptotically $\chi^2_p$ (a Wald statistic), so the F-test remains approximately valid too.
+
+**Caveat (the Lindeberg condition).** This needs no single observation to dominate the weighted sum
 
 ---
 
@@ -213,6 +228,29 @@ $$t = \frac{\hat{\beta}_j}{\text{SE}(\hat{\beta}_j)}, \qquad \text{SE}(\hat{\bet
 
 where $\hat{\sigma}^2 = \frac{\text{SS}_{\text{res}}}{n - p - 1}$ and $[(X^\top X)^{-1}]_{jj}$ is the $j$-th diagonal element of $(X^\top X)^{-1}$. Under $H_0$, $t \sim t_{n-p-1}$.
 
+Or
+$$Var(\hat{\beta}|X) = \sigma^2 (X^T X)^{-1}$$
+
+derivation:
+$\hat{\beta} = (X^T X)^{-1} X^T (X\beta + \epsilon)$ -> $\hat{\beta} = \beta + (X^T X)^{-1} X^T \epsilon$
+$Var(\hat{\beta}|X) = Var(\beta + (X^T X)^{-1} X^T \epsilon | X)$
+
+$Var(\hat{\beta}|X) = Var((X^T X)^{-1} X^T \epsilon | X)$, since $Var(AZ) = A Var(Z) A^T$, 
+Let $A = (X^T X)^{-1} X^T$ and let $Z = \epsilon$. Applying the rule (because $(X^T X)$ is a symmetric matrix, its inverse is also symmetric, meaning $[(X^T X)^{-1}]^T = (X^T X)^{-1}$):
+
+$$Var(\hat{\beta}|X) = [(X^T X)^{-1} X^T] \cdot Var(\epsilon|X) \cdot [(X^T X)^{-1} X^T]^T$$
+$$Var(\hat{\beta}|X) = (X^T X)^{-1} X^T \cdot Var(\epsilon|X) \cdot X (X^T X)^{-1}$$
+rom our initial assumptions, we know that $Var(\epsilon|X) = \sigma^2 I$. Substitute this into the equation:
+
+$$Var(\hat{\beta}|X) = (X^T X)^{-1} X^T (\sigma^2 I) X (X^T X)^{-1}$$
+
+$$Var(\hat{\beta}|X) = \sigma^2 (X^T X)^{-1} X^T X (X^T X)^{-1}$$
+$$Var(\hat{\beta}|X) = \sigma^2 (X^T X)^{-1}$$
+
+and we can see that if datasets double, n goes to 2n, theoretically $(X^T X)$ will approximately double, ie. var(beta) goes to 1/2, and se(beta) goes to $1/\sqrt 2$.
+
+
+
 **F-statistic** tests $H_0: \beta_1 = \cdots = \beta_p = 0$ jointly. Under $H_0$, $F \sim F_{p,\ n-p-1}$.
 
 $$F = \frac{(SS_\text{tot} - SS_\text{res})/p}{SS_\text{res}/(n-p-1)} = \frac{R^2/p}{(1-R^2)/(n-p-1)} = \frac{\text{explained variance per predictor}}{\text{unexplained variance per data point with fredom}}$$
@@ -266,4 +304,4 @@ You only need $A_j$ and $\hat{\beta}_j$ per dataset — never the raw rows. This
 
 - [[ridge_lasso]]
 - [[fama_macbeth]]
-- [[GLS]]
+- [[GLS and OLS with Robust Estimation]]

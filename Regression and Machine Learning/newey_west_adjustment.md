@@ -57,8 +57,23 @@ $$W = \begin{bmatrix} 1.00 & 0.67 & 0.33 & 0 & 0 & 0 & \dots \\ 0.67 & 1.00 & 0.
 
 lag = 3
 $$W = \begin{bmatrix} 1.00 & 0.75 & 0.50 & 0.25 & 0 & 0 & \dots \\ 0.75 & 1.00 & 0.75 & 0.50 & 0.25 & 0 & \dots \\ 0.50 & 0.75 & 1.00 & 0.75 & 0.50 & 0.25 & \dots \\ 0.25 & 0.50 & 0.75 & 1.00 & 0.75 & 0.50 & \dots \\ 0 & 0.25 & 0.50 & 0.75 & 1.00 & 0.75 & \dots \\ 0 & 0 & 0.25 & 0.50 & 0.75 & 1.00 & \dots \\ \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots \end{bmatrix}$$
+### 7. Estimation of Risk Factor Covariance with Newey West
 
+When using Newey-west (HAC) adjustment, typically we will just choose a max lag (L-3 in Acadian Factor Covariance estimation). Suppose you have two factors and choose lag L:
+$$\hat{\Sigma}_{NW} = \hat{\Sigma}_0 + \sum_{l=1}^{L} w_l (\hat{\Gamma}_l + \hat{\Gamma}_l^T)$$
+- $\hat{\Sigma}_0$ 是标准的同期样本协方差矩阵（滞后期为 0）。
+    
+- $L$ 是你选择考虑的最大滞后期数（带宽/bandwidth）。
+    
+- $\hat{\Gamma}_l$ 是滞后 $l$ 期的交叉协方差矩阵：
+    
+    $$\hat{\Gamma}_l = \frac{1}{T} \sum_{t=l+1}^{T} (r_t - \bar{r})(r_{t-l} - \bar{r})^T$$
+    
+- $w_l$ 是 Bartlett 核函数（Bartlett kernel），它为更长的滞后期分配逐渐衰减的权重，以确保最终得到的矩阵保持半正定（Positive Semi-Definite）：
+    
+    $$w_l = 1 - \frac{l}{L+1}$$
+如果不用这个w_l，比如w_l always = 1, the matrix constructed is often not positive semi definite.
 ## Related Notes
 
 - [[linear_regression]] — assumption 5 (no autocorrelation), where this correction is applied
-- [[GLS]] — the general framework; White, WLS, and Fama-MacBeth as special cases
+- [[GLS and OLS with Robust Estimation]] — the general framework; White, WLS, and Fama-MacBeth as special cases

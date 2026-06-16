@@ -106,8 +106,8 @@ See [[eigen decomposition]] for the full treatment.
 
 Cholesky generates correlated normals: if $z \sim N(0, I)$ then $Lz \sim N(0, \Sigma)$. The precision matrix $\Sigma^{-1}$ appears in the Gaussian density and GLS; its off-diagonals encode partial (conditional) correlations.
 
-**Correlation in matrix form:**
-$$P = D_\sigma^{-1/2}\,\Sigma\,D_\sigma^{-1/2}, \qquad D_\sigma = \text{diag}(\Sigma)$$
+**Covariance matrix Decompose to Correlation:**
+$$\Sigma = D_\sigma^\,C\,D_\sigma, \qquad D_\sigma = \text{diag}(\Sigma)$$ C is correlation matrix
 
 **Dual view ($X^\top X$ vs $X X^\top$):**
 - $X^\top X$ is $p \times p$ — covariance between **variables** (the matrix for $w^\top \Sigma w$).
