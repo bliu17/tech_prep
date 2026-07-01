@@ -1,18 +1,18 @@
 
 
-## 1 策略是否失效问题
+## 1 策略是否失效问题 （统计检验）
 Probability an asset with annual Sharpe ratio 1 loses money in 4 years.
 
 The annual Sharpe ratio is given as $1$, meaning $\frac{\mu}{\sigma} = 1$, which simplifies to **$\mu = \sigma$**.
 
-$$\text{Mean}_{4\text{yr}} = 4\mu$$$$\text{Volatility}_{4\text{yr}} = \sqrt{4\sigma^2} = 2\sigma$$We want to find the probability that the total 4-year return is less than zero. We can do this by calculating the Z-score, which measures how many standard deviations zero is away from the expected 4-year return.
+$$\text{Mean}_{4\text{yr}} = 4\mu$$$$\text{Volatility}_{4\text{yr}} = \sqrt{4\sigma^2} = 2\sigma$$Assume that the annual return is i.i.d, and following normal distribution. We want to find the probability that the total 4-year return is less than zero. We can do this by calculating the Z-score, which measures how many standard deviations zero is away from the expected 4-year return.
 
 $$Z = \frac{\text{Target} - \text{Mean}_{4\text{yr}}}{\text{Volatility}_{4\text{yr}}}$$
 
 $$Z = \frac{0 - 4\mu}{2\sigma}$$$$Z = \frac{-4\mu}{2\mu} = -2$$According to standard normal distribution tables, **Φ(−2)≈0.025**, meaning there is roughly a **2.5%** chance the asset loses money over a 4-year stretch.
 
 
-## 2 MM豆的统计检验
+## 2 MM豆（统计检验）
 A person claims they can identify the color of M&M candies by taste. There are 5
 colors. In a test of 3 candies, they get 2 correct. What can you conclude about the claim？
 
@@ -48,3 +48,31 @@ reasonable explanation for this pattern.
 
 For a claim like mind reading, you should choose an incredibly strict, microscopic $\alpha$ (e.g., $\alpha = 0.0000003$, which corresponds to a $5\sigma$ standard used in particle physics).
 This is rooted in Bayesian statistics and the famous adage: _"Extraordinary claims require extraordinary evidence."_ * A claim of mind reading violates all known laws of physics. Therefore, the **prior probability** of it being true is effectively zero.
+
+
+## 3 AR(1) 平稳性与方差
+
+考虑一阶自回归过程
+$$x_{t+1} = a\, x_t + g\, e_t, \qquad e_t \sim N(0,1) \text{ i.i.d.}$$
+
+### (a) 什么条件下 $x_t$ 平稳？
+
+**答案：$0 < |a| < 1$。**
+
+- $|a| = 1$：单位根，方差随 $t$ 线性发散（随机游走类）。
+- $|a| > 1$：爆炸（explosive），方差指数发散。
+
+### (b) $x_t$ 的方差是多少？向量形式呢？
+
+平稳时 $\operatorname{Var}(x_{t+1}) = \operatorname{Var}(x_t) \equiv \sigma^2$。两边取方差，利用 $x_t$ 与 $e_t$ 独立：
+$$\sigma^2 = a^2 \sigma^2 + g^2 \;\Rightarrow\; \sigma^2 = \frac{g^2}{1-a^2}.$$
+
+**向量形式（思路相同：对 $\operatorname{Var}$ 取算子、解 Lyapunov 方程）。** 若 $\mathbf{x}_{t+1} = A\mathbf{x}_t + G\mathbf{e}_t$，$\operatorname{Cov}(\mathbf{e}_t) = I$，记稳态协方差 $\Sigma = \operatorname{Cov}(\mathbf{x}_t)$，则
+$$\Sigma = A\Sigma A^{\top} + GG^{\top}$$
+这就是**离散 Lyapunov（Stein）方程**。和标量做法一样——对方程两端同取 $\operatorname{Var}/\operatorname{Cov}$ 并令两端相等，解出 $\Sigma$。利用向量化恒等式 $\operatorname{vec}(A\Sigma A^\top) = (A\otimes A)\operatorname{vec}(\Sigma)$，可解出闭式
+$$\operatorname{vec}(\Sigma) = \big(I - A\otimes A\big)^{-1}\operatorname{vec}(GG^{\top}),$$
+当 $A$ 的所有特征值模长 $<1$（向量版的平稳条件）时该逆存在。标量 $A=a,\,G=g$ 时退化为 $\sigma^2 = g^2/(1-a^2)$。
+
+
+
+
